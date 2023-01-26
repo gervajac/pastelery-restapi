@@ -31,15 +31,16 @@ export const getPastel = async (req, res) => {
 export const postPastel = async (req, res) => {
 
 try{  
-const {name, images, cm, price} = req.body
+const {name, description, image, longitud, price} = req.body
 
-const [rows] = await pool.query('INSERT INTO pastels(name, images, cm, price) VALUES (?, ?, ?, ?)', [name, images, cm, price])
+const [rows] = await pool.query('INSERT INTO pastels(name, description, image, longitud, price) VALUES (?, ?, ?, ?)', [name, description, image, longitud, price])
    
 res.send({
     id: rows.insertId,
     name,
-    images,
-    cm,
+    description,
+    image,
+    longitud,
     price
 })
 } catch(error){
@@ -70,9 +71,9 @@ export const updatePastel = async (req, res) => {
 
   try{
   const {id} = req.params
-  const {name, images, cm, price} = req.body
+  const {name, description, image, longitud, price} = req.body
  
-  const [result] = await pool.query('UPDATE pastels SET name = IFNULL(?, name), images = IFNULL(?, images), cm = IFNULL(?, cm), price = IFNULL(?, price) WHERE id = ?', [name, images, cm, price, id])
+  const [result] = await pool.query('UPDATE pastels SET name = IFNULL(?, name), description = IFNULL(?, description), image = IFNULL(?, image), longitud = IFNULL(?, longitud), price = IFNULL(?, price) WHERE id = ?', [name, description, image, longitud, price, id])
 
   if(result.affectedRows === 0) return res.status(404).json({
     message: "pastel not found"
